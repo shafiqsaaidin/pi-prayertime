@@ -1,7 +1,7 @@
-<?php  
+<?php
     //require 'api.php';
     //require_once 'time.php';
-    
+
     // Get Hijri date
     $url2 = file_get_contents("https://api.aladhan.com/gToH");
     $data = json_decode($url2, true);
@@ -10,9 +10,9 @@
     $day = ($ar1['hijri']['day']);
     $month = ($ar1['hijri']['month']['en']);
     $year = ($ar1['hijri']['year']);
-    
+
     $today = $day." ".$month." ".$year;
-    
+
     $zon = "";
 
     if(isset($_POST['zon'])){
@@ -45,23 +45,23 @@
         $isyak = $time[isyak];
 
         $waktuAzan = array("imsak"=>"$imsak", "subuh"=>"$subuh", "zohor"=>"$zohor", "asar"=>"$asar", "maghrib"=>"$maghrib", "isyak"=>"$isyak");
-    }    
+    }
 
     function pesanan(){
         $myfile = fopen("./text/pesanan.txt", "r") or die("Unable to open file!");
         echo fread($myfile,filesize("./text/pesanan.txt"));
-        fclose($myfile);    
+        fclose($myfile);
     }
 
-    function tulisPesanan(){      
+    function tulisPesanan(){
         if(!empty($_POST['pesanan'])){
             $myfile = fopen("./text/pesanan.txt", "w") or die("Unable to write file!");
-            
+
             // Get Form Data
             $pesanan = htmlspecialchars($_POST['pesanan']);
-            
+
             fwrite($myfile, $pesanan);
-            fclose($myfile);               
+            fclose($myfile);
         }
 
     }
@@ -75,6 +75,8 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/myjs.js"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -160,14 +162,14 @@
                                     <div id="day" class="day"><?php echo date('D,d F Y'); ?></div>
                                     <div id="day" class="day"><?php echo $today; ?></div>
                                     <div id="day" class="kawasan"><?php echo $kawasan; ?></div>
-                                </div>   
+                                </div>
                             </div>
                     </div>
                 </div>
             </div>
         </section>
         <!-- END SECTION1 -->
-        
+
         <!-- SECTION 2 -->
         <section class="section2">
             <div class="container">
@@ -184,7 +186,7 @@
             </div>
         </section>
         <!-- END SECTION 2 -->
-        
+
         <!-- SECTION 3 -->
         <section class="section3">
             <div class="container">
@@ -193,11 +195,11 @@
                 </div>
             </div>
         </section>
-        
+
     </div>
-    
+
     <!-- MODAL SECTION -->
-    
+
     <!-- Modal -->
     <div id="myModal_1" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -227,23 +229,18 @@
             </div>
         </div>
     </div>
- 
+
     <!-- AUDIO SOLAT -->
     <audio id="azan" src="audio/Azan.mp3"></audio>
     <audio src="audio/Azan2.mp3" id="azan2"></audio>
-    
-    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            setInterval(function() {
-                $('#time').load('time.php') 
-            }, 1000); 
-        });
-    
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
-        });
+    $( document ).ready(function() {
+      setInterval(function() {
+        $('#time').load('time.php')
+      }, 1000);
+    });
     </script>
 </body>
 </html>

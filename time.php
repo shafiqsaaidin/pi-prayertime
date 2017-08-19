@@ -21,7 +21,7 @@
             break;
         case "$maghrib":
             echo '<script>play()</script>';
-            break;            
+            break;
         case "$isyak":
             echo '<script>play()</script>';
             break;
