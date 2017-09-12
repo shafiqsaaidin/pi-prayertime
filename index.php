@@ -1,5 +1,5 @@
 <?php
-    //require 'api.php';
+    require 'api.php';
     //require_once 'time.php';
 
     // Get Hijri date
@@ -13,38 +13,23 @@
 
     $today = $day." ".$month." ".$year;
 
-    $zon = "";
+    if(isset($_POST['simpan'])){
+        $zonKawasan = htmlspecialchars($_POST['zon']);
+        $pesanan = htmlspecialchars($_POST['pesanan']);
 
-    if(isset($_POST['zon'])){
-        $zon = htmlspecialchars($_POST['zon']);
-
-        // Write string zon to text
-        $fileZone = fopen("./text/zon.txt", "w") or die("Unable to write to file");
-        $text = $zon;
-        fwrite($fileZone, $text);
-
-        // Api url
-        $url = file_get_contents('http://api.azanpro.com/times/today.json?zone='.$zon.'&format=12-hour');
-
-        $json = json_decode($url, true);
-
-        $time = $json[prayer_times];
-        $location = $json[locations];
-
-        $kawasan = '';
-
-        foreach($location as $x){
-            $kawasan = $kawasan.$x.", ";
+        // tulis zon kawasan ke zon.txt
+        if(!empty($zonKawasan)){
+            $myzonFile = fopen("./text/zon.txt", "w") or die("Unable to open file!");
+            fwrite($myzonFile, $zonKawasan);
+            fclose($myzonFile);
         }
 
-        $imsak = $time[imsak];
-        $subuh = $time[subuh];
-        $zohor = $time[zohor];
-        $asar = $time[asar];
-        $maghrib = $time[maghrib];
-        $isyak = $time[isyak];
-
-        $waktuAzan = array("imsak"=>"$imsak", "subuh"=>"$subuh", "zohor"=>"$zohor", "asar"=>"$asar", "maghrib"=>"$maghrib", "isyak"=>"$isyak");
+        // Tulis pesanan ke pesanan.txt
+        if(!empty($pesanan)){
+            $mypesananFile = fopen("./text/pesanan.txt", "w") or die("Unable to write file!");
+            fwrite($mypesananFile, $pesanan);
+            fclose($mypesananFile);
+        }
     }
 
     function pesanan(){
@@ -52,21 +37,6 @@
         echo fread($myfile,filesize("./text/pesanan.txt"));
         fclose($myfile);
     }
-
-    function tulisPesanan(){
-        if(!empty($_POST['pesanan'])){
-            $myfile = fopen("./text/pesanan.txt", "w") or die("Unable to write file!");
-
-            // Get Form Data
-            $pesanan = htmlspecialchars($_POST['pesanan']);
-
-            fwrite($myfile, $pesanan);
-            fclose($myfile);
-        }
-
-    }
-
-    tulisPesanan();
 ?>
 <!DOCTYPE html>
 <html>
@@ -236,11 +206,9 @@
 
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript">
-    $( document ).ready(function() {
-      setInterval(function() {
-        $('#time').load('time.php')
-      }, 1000);
-    });
+        setInterval(function() {
+          $('#time').load('time.php')
+        }, 1000);
     </script>
 </body>
 </html>
