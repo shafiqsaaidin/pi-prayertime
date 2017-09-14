@@ -206,9 +206,11 @@
 
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        setInterval(function() {
-          $('#time').load('time.php')
-        }, 1000);
+    $( document ).ready(function() {
+      setInterval(function() {
+        $('#time').load('time.php')
+      }, 1000);
+    });
     </script>
 </body>
 </html>
